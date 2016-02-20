@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'main'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -76,8 +76,11 @@ WSGI_APPLICATION = 'mchacks2016.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.path.join('BASE_DIR', 'db.mchacks'),
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost'
     }
 }
 
