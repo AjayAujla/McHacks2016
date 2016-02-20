@@ -77,10 +77,11 @@ WSGI_APPLICATION = 'mchacks2016.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join('BASE_DIR', 'db.mchacks'),
+        'NAME': 'mchacks',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost'
+        'PASSWORD': 'yoursql',
+        'HOST': 'localhost',
+        'PORT': '8000',
     }
 }
 
