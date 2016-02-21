@@ -28,10 +28,10 @@ class Activity(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=50)
     users = models.ManyToManyField(User)
-    chosen_activity = models.ForeignKey(Preference, on_delete=models.CASCADE)
-    chosen_date = models.ForeignKey(Availability, on_delete=models.CASCADE)
-    suggested_activities = models.ManyToManyField(Activity)
-    suggested_dates = models.ManyToManyField(Availability)
+    chosen_activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='chosen_activity')
+    chosen_date = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='chosen_date')
+    suggested_activities = models.ManyToManyField(Activity, related_name='suggested_activities')
+    suggested_dates = models.ManyToManyField(Availability, related_name='suggested_dates')
     
 # Candidates belong to group and activity and store voter list
 class Candidate_Activity(models.Model):
