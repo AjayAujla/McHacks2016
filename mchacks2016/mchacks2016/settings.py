@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangular',
     'main'
 ]
 
@@ -80,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mchacks',
         'USER': 'root',
-        'PASSWORD': 'yoursql',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
     }
 }
