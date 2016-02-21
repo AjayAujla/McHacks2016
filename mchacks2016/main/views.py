@@ -25,7 +25,6 @@ def dashboard(request):
 			newPref.name =  request.POST['pref']
 			newPref.save()
 			user.preference.add(newPref)
-
 	context = {
 		'user': user,
 		'userAvailability': user.availability.all,
@@ -59,13 +58,23 @@ def group(request, group_name):
 			group.users.add(friend[0])
 		else:
 			message = "That friend does not exist! (At least in our database..)"
+	elif request.method == 'POST' and request.POST['formType'] == 'add_activity':
+		activity = Activity.objects.filter(name=request.POST['activity'])
+		if activity.exists():
+			print "activity already exists"
+			group.suggested_activities.add(activity[0])
+		else:
+			print "activity dne, creating"
+			newActivity = Activity()
+			newActivity.name = request.POST['activity']
+			newActivity.save()
+			group.suggested_activities.add(newActivity)
 	context = {
 		'group': group,
 		'group_name': group_name,
 		'users': users,
 		'message': message,
 	}
-
 	return render(request, 'main/group.html', context)
 
 def register(request):

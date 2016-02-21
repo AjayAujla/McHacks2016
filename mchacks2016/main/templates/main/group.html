@@ -72,9 +72,9 @@
 					<div class="col-md-6">
 						<h3>Activities</h3>
 						<ul>
-							<li>Biking</li>
-							<li>Bowling</li>
-							<li>Pizza</li>
+							{% for act in group.suggested_activities.all %}
+							<li>{{ act }} <a href="" class=""><span class="vote glyphicon glyphicon-arrow-up" aria-hidden="true"></li>
+							{% endfor %}
 						</ul>
 						<h3>Dates</h3>
 						<ul>
@@ -85,12 +85,13 @@
 					</div>
 					<div class="col-md-6">
 						<h3>Recommend an activity!</h3>
-						<form action="add_activity" method="post">
-							{% csrf_token %}
-							<input type="text" name="name" /><br>
-							<input type="checkbox" name="pref1" value="pref1" /> pref1<br>
-							<input type="checkbox" name="pref2" value="Mike" /> pref2<br>
-							<input type="submit" value="Submit" />
+						<form id="addActivity" method="POST" action="/group/{{group_name}}" novalidate="novalidate" class="navbar-form">{% csrf_token %}
+							<input type="hidden" name="group" value="{{group_name}}">
+							<input type="hidden" name="formType" value="add_activity">
+							<div class="form-group">
+									<input type="text" class="form-control" id="activity" name="activity" value="" required="" placeholder="Add an activity">
+							</div>
+							<button href="" type="submit" class="btn btn-success">Add</button>
 						</form>
 						</div>
 					</div>
