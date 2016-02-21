@@ -9,7 +9,9 @@ def dashboard(request):
 
 	context = {
 		'user': user,
-		'userAvailability': user.availability.all
+		'userAvailability': user.availability.all,
+		'userPreferences': user.preference.all,
+		'userGroups': Group.objects.filter(users__user_name='Bob')
 	}
 	
 	return render(request, 'main/dashboard.html', context)
