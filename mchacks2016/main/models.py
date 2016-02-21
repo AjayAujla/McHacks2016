@@ -24,9 +24,6 @@ class Availability(models.Model):
     start_date=models.DateTimeField('Available from')
     end_date = models.DateTimeField('Available to')
     user = models.ManyToManyField(User)
-    
-    def __str__(self):
-        return self.start_date
 
 # Activities are a specific event, eg : hiking Mont Royal
 class Activity(models.Model):
