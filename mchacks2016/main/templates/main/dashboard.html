@@ -7,18 +7,78 @@
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static "fullcalendar/dist/fullcalendar.css" %}"/>
 
+	<!-- TODO: shift to main.css -->
+	<style type="text/css">
+		.calendar {
+			width: 50%;
+		}
+	</style>
 </head>
-<body>
+
+<body ng-app="dashboard">
+	
 	<p>At the dashboard view</p>
+
+	<div ng-controller="CalendarController">
+		<div class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
+	</div>
+
 
 	<!-- Scripts -->
 	<!-- jquery, moment, and angular have to get included before fullcalendar -->
-
 	<script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "moment/min/moment.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "angular/angular.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "angular-ui-calendar/src/calendar.js" %}"></script>
 	<script type="text/javascript" src="{% static "fullcalendar/dist/fullcalendar.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "fullcalendar/dist/gcal.js" %}"></script>
+
+	<!-- TODO: shift to main.js -->
+	<!-- Angular UI Calendar https://github.com/angular-ui/ui-calendar -->
+	<script type="text/javascript">
+		angular.module('dashboard', ['ui.calendar']).controller('CalendarController', function($scope) {
+
+			//TODO: remove test data
+			var events = [
+			{ 
+				title: "Birthday",
+				start: new Date(2016, 1, 21),
+				textColor: 'black'
+			},
+			{ 
+				title: "Anniversary",
+				start: new Date(2016, 1, 22, 19, 30),
+				end: new Date(2016, 1, 23, 19, 30),
+				color: '#00A896'
+			},
+			{ 
+				title: "Conference",
+				start: new Date(2016, 1, 23),
+				end: new Date(2016, 1, 24),
+				color: "yellow",
+				textColor: "black"
+			}
+			];
+
+			$scope.eventSources = [events];
+
+			$scope.calendarOptions = 
+			{
+				calendar: {
+					height: 600,
+					editable: true,
+					header: {
+						left: 'title',
+						center: '',
+						right: 'month agendaWeek agendaDay today prev,next'
+					},
+					dayClick: $scope.alertEventOnClick,
+					eventDrop: $scope.alertOnDrop,
+					eventResize: $scope.alertOnResize
+				}
+			};
+		});
+
+	</script>
 </body>
 </html>
