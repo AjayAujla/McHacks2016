@@ -11,32 +11,32 @@
 </head>
 <body ng-app="dashboard">
 	<nav class="navbar navbar-default">
-	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">Brand</a>
-	    </div>
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
 
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">Link</a></li>
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container -->
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Link</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container -->
 	</nav>
 	<div class="header">
 		<img src="http://placehold.it/150x150" class="img-circle">
 		<h1>first last</h1>
 		<h2>username</h2>
 	</div>
-	<div class="container content">
+	<div class="container-fluid content">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="panel">
@@ -47,11 +47,11 @@
 							<li><a href="">Boop boop</a></li>
 						</ul>
 						<form class="navbar-form navbar-left" role="search">
-			        <div class="form-group">
-			          <input type="text" class="form-control" placeholder="Create new group">
-			        </div>
-			        <button type="submit" class="btn btn-default">Submit</button>
-			      </form>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Create new group">
+							</div>
+							<button type="submit" class="btn btn-default">Submit</button>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -70,17 +70,14 @@
 				<div class="panel">
 					<div class="panel-body">
 						<h1>Schedule</h1>
+						<div ng-controller="CalendarController">
+							<div id="calendar" class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<div ng-controller="CalendarController">
-		<div class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
-	</div>
-
 
 	<!-- Scripts -->
 	<!-- jquery, moment, and angular have to get included before fullcalendar -->
@@ -96,29 +93,27 @@
 	<script type="text/javascript">
 		angular.module('dashboard', ['ui.calendar']).controller('CalendarController', function($scope) {
 
-			//TODO: remove test data
-			var events = [
-			{
-				title: "Birthday",
-				start: new Date(2016, 1, 21),
-				textColor: 'black'
-			},
-			{
-				title: "Anniversary",
-				start: new Date(2016, 1, 22, 19, 30),
-				end: new Date(2016, 1, 23, 19, 30),
-				color: '#00A896'
-			},
-			{
-				title: "Conference",
-				start: new Date(2016, 1, 23),
-				end: new Date(2016, 1, 24),
-				color: "yellow",
-				textColor: "black"
-			}
-			];
+			$scope.events = [];
 
-			$scope.eventSources = [events];
+			{% for date in userAvailability %}
+			$scope.events.push({
+				title: "{{user.user_name}} is Available",
+				start: new Date({{date.start_date.year}}, {{date.start_date.month}}, {{date.start_date.day}}, {{date.start_date.time.hour}}, {{date.start_date.time.minute}}),
+				start: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
+				color: '#00A896'
+			});
+			{% endfor %}
+
+			$scope.eventSources = [$scope.events];
+
+			$scope.eventClick = function(event, jsEvent, view) {
+			};
+
+			$scope.eventMouseover = function(event, jsEvent, view) {
+			};
+
+			$scope.eventMouseout = function(event, jsEvent, view) {
+			};
 
 			$scope.calendarOptions =
 			{
@@ -130,11 +125,13 @@
 						center: '',
 						right: 'month agendaWeek agendaDay today prev,next'
 					},
-					dayClick: $scope.alertEventOnClick,
-					eventDrop: $scope.alertOnDrop,
-					eventResize: $scope.alertOnResize
+					eventClick: $scope.eventClick,
+					eventMouseover: $scope.eventMouseover,
+					eventMouseout: $scope.eventMouseout,
+					defaultView: 'agendaWeek'
 				}
 			};
+
 		});
 
 	</script>
