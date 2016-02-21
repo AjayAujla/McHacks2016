@@ -22,6 +22,7 @@ def group(request, group_name):
 	users = group.users.all
 
 	context = {
+		'group':group,
 		'group_name': group_name,
 		'users': users,
 	}
