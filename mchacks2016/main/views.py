@@ -13,7 +13,7 @@ def dashboard(request):
 		'userPreferences': user.preference.all,
 		'userGroups': Group.objects.filter(users__user_name='Bob')
 	}
-	
+
 	return render(request, 'main/dashboard.html', context)
 
 def group(request, group_name):
@@ -24,26 +24,30 @@ def group(request, group_name):
 	return render(request, 'main/group.html', context)
 
 def register(request):
-    context = {  
-    }
-    
     if request.method == 'GET':
         # display empty form
-        return render(request, 'main/register.html', context)
-    elif request.method == 'POST': 
+        return render(request, 'main/register.html', {})
+    elif request.method == 'POST':
         # request is a POST, save user info to database
         newUser = User()
         newUser.user_name = request.POST['user_name']
         newUser.first_name = request.POST['first_name']
-        newUser.last_name =request.POST['last_name']
-        newUser.postal_code =request.POST['postal_code']
-        newUser.password =request.POST['password']
+        newUser.last_name = request.POST['last_name']
+        newUser.postal_code = request.POST['postal_code']
+        newUser.password = request.POST['password']
         newUser.save()
-        return render(request, 'main/dashboard.html', context)
+        return render(request, 'main/dashboard.html', { 'user': user })
 #    else:
         #TODO: raise 404 or something
 def index(request):
-	context = {
-	}
-
-	return render(request, 'main/index.html', context)
+    if request.method == 'GET':
+		# display empty form
+		return render(request, 'main/index.html', {})
+    elif request.method == 'POST':
+		# request is a POST, try to login
+		user = User.objects.filter(user_name=request.POST['username'])
+		if user.exists() and user[0].password == request.POST['password']:
+			return render(request, 'main/dashboard.html', {'user': user[0]})
+		else:
+			# login unsuccessful
+			return render(request, 'main/index.html', { 'message': 'Login unsuccessful' })
