@@ -14,14 +14,13 @@ class Availability(models.Model):
     end_date = models.DateTimeField('Available to')
 
 class User(models.Model):
-    user_name = models.CharField(max_length=50)
+    user_name = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     postal_code = models.CharField(max_length=7)
     preference = models.ManyToManyField(Preference)
     availability = models.ManyToManyField(Availability)
     password = models.CharField(max_length=20, null=True)
-
     def __str__(self):
         return self.user_name
 
@@ -35,7 +34,7 @@ class Activity(models.Model):
 
 # For each planned activity, make a "group" to decide what activity and when
 class Group(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     users = models.ManyToManyField(User)
     chosen_activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='chosen_activity', blank=True, null=True)
     chosen_date = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='chosen_date', blank=True, null=True)

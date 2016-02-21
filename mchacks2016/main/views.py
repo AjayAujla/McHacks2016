@@ -1,11 +1,30 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.shortcuts import redirect
 from main.models import *
 
 # Create your views here.
 
 def dashboard(request):
-	user = User.objects.get(user_name='Bob')	# user_name=request.user
+	if request.method == 'GET':
+		return redirect(index)
+	if request.method == 'POST' and request.POST['formType'] == 'create_group':
+		user = User.objects.get(user_name = request.POST['username'])
+		newGroup = Group()
+		newGroup.name = request.POST['group']
+		newGroup.save()
+		newGroup.users.add(user)
+	elif request.method == 'POST' and request.POST['formType'] == 'create_pref':
+		user = User.objects.get(user_name = request.POST['username'])
+		# If preference doesn't exist, create it
+		pref = Preference.objects.filter(name=request.POST['pref'])
+		if pref.exists():
+			user.preference.add(pref[0])
+		else:
+			newPref = Preference()
+			newPref.name =  request.POST['pref']
+			newPref.save()
+			user.preference.add(newPref)
 
 	context = {
 		'user': user,
@@ -14,6 +33,15 @@ def dashboard(request):
 		'userGroups': Group.objects.filter(users__user_name='Bob')
 	}
 
+	return render(request, 'main/dashboard.html', context)
+
+def enter_dashboard(request, user):
+	context = {
+		'user': user,
+		'userAvailability': user.availability.all,
+		'userPreferences': user.preference.all,
+		'userGroups': Group.objects.filter(users__user_name='Bob')
+	}
 	return render(request, 'main/dashboard.html', context)
 
 def group(request, group_name):
@@ -42,7 +70,7 @@ def register(request):
         newUser.postal_code = request.POST['postal_code']
         newUser.password = request.POST['password']
         newUser.save()
-        return render(request, 'main/dashboard.html', { 'user': user })
+        return enter_dashboard(request, user)
 #    else:
         #TODO: raise 404 or something
 def index(request):
@@ -53,7 +81,7 @@ def index(request):
 		# request is a POST, try to login
 		user = User.objects.filter(user_name=request.POST['username'])
 		if user.exists() and user[0].password == request.POST['password']:
-			return render(request, 'main/dashboard.html', {'user': user[0]})
+			return enter_dashboard(request, user[0])
 		else:
 			# login unsuccessful
 			return render(request, 'main/index.html', { 'message': 'Login unsuccessful' })
