@@ -37,8 +37,8 @@
 					<h1><span>GROUP</span> {{ group_name }}</h1>
 				</div>
 				<div class="col-md-8 users">
-					{% for users in users %}
-					{{ user.username }}
+					{% for user in users %}
+					{{ user.user_name }}
 					<img src="http://placehold.it/50x50" class="img-circle" title="user">
 					{% endfor %}
 				</div>
