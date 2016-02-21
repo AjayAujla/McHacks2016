@@ -38,7 +38,7 @@
 		<h1>first last</h1>
 		<h2>username</h2>
 	</div>
-	<div class="container content">
+	<div class="container-fluid content">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="panel">
@@ -72,34 +72,14 @@
 				<div class="panel">
 					<div class="panel-body">
 						<h1>Schedule</h1>
+						<div ng-controller="CalendarController">
+							<div id="calendar" class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	{% for date in user.availability.all %}
-	start date
-	{{ date.start_date.date.year }}
-	{{ date.start_date.date.month }}
-	{{ date.start_date.date.day }}
-	start time
-	{{ date.start_date.time.hour }}
-	{{ date.start_date.time.minute }}
-	end date
-	{{ date.end_date.date.year }}
-	{{ date.end_date.date.month }}
-	{{ date.end_date.date.day }}
-	end time
-	{{ date.end_date.time.hour }}
-	{{ date.end_date.time.minute }}
-	{% endfor %}	
-
-	
-	<div ng-controller="CalendarController">
-		<div id="calendar" class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
-	</div>
-
 
 	<!-- Scripts -->
 	<!-- jquery, moment, and angular have to get included before fullcalendar -->
@@ -161,6 +141,7 @@
 					eventClick: $scope.eventClick,
 					eventMouseover: $scope.eventMouseover,
 					eventMouseout: $scope.eventMouseout,
+					defaultView: 'agendaWeek'
 				}
 			};
 
