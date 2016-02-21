@@ -33,8 +33,8 @@
 	</nav>
 	<div class="header">
 		<img src="http://placehold.it/150x150" class="img-circle">
-		<h1>first last</h1>
-		<h2>username</h2>
+		<h1>{{user.first_name}} {{user.last_name}}</h1>
+		<h3>{{user.user_name}}</h3>
 	</div>
 	<div class="container-fluid content">
 		<div class="row">
@@ -43,8 +43,9 @@
 					<div class="panel-body">
 						<h1>Groups</h1>
 						<ul>
-							<li><a href="">McHacks</a></li>
-							<li><a href="">Boop boop</a></li>
+							{% for group in userGroups %}
+								<li><a href="">{{group}}</a></li>
+							{% endfor %}
 						</ul>
 						<form class="navbar-form navbar-left" role="search">
 							<div class="form-group">
@@ -59,10 +60,9 @@
 				<div class="panel preferences">
 					<div class="panel-body">
 						<h1>Preferences</h1>
-						<span>Outdoors</span>
-						<span>Food</span>
-						<span>Sports</span>
-						<span>Museums</span>
+						{% for preference in userPreferences %}
+							<span>{{preference}}</span>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -99,7 +99,7 @@
 			$scope.events.push({
 				title: "{{user.user_name}} is Available",
 				start: new Date({{date.start_date.year}}, {{date.start_date.month}}, {{date.start_date.day}}, {{date.start_date.time.hour}}, {{date.start_date.time.minute}}),
-				start: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
+				end: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
 				color: '#00A896'
 			});
 			{% endfor %}

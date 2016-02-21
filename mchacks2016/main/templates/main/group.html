@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="{% static "stylesheets/bootstrap.min.css" %}"/>
 	<link rel="stylesheet" href="{% static "stylesheets/main.css" %}"/>
 </head>
-<body ng-app="dashboard">
+<body ng-app="group">
 	<nav class="navbar navbar-default">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -33,17 +33,15 @@
 	<div class="header group">
 		<div class="container">
 			<div class="row">
-					<div class="col-md-4">
-						<h1><span>GROUP</span> {{ group_name }}</h1>
-					</div>
-					<div class="col-md-8 users">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-						<img src="http://placehold.it/50x50" class="img-circle" title="user">
-					</div>
+				<div class="col-md-4">
+					<h1><span>GROUP</span> {{ group_name }}</h1>
+				</div>
+				<div class="col-md-8 users">
+					{% for users in users %}
+					{{ user.username }}
+					<img src="http://placehold.it/50x50" class="img-circle" title="user">
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -89,30 +87,91 @@
 					<div class="col-md-6">
 						<h3>Recommend an activity!</h3>
 						<form action="add_activity" method="post">
-						{% csrf_token %}
-						    <input type="text" name="name" /><br>
-								<input type="checkbox" name="pref1" value="pref1"> pref1<br>
-								<input type="checkbox" name="pref2" value="Mike"> pref2<br>
-								<input type="submit" value="Submit" />
+							{% csrf_token %}
+							<input type="text" name="name" /><br>
+							<input type="checkbox" name="pref1" value="pref1" /> pref1<br>
+							<input type="checkbox" name="pref2" value="Mike" /> pref2<br>
+							<input type="submit" value="Submit" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-body">
+					<h1>Popular Preferences</h1>
+					<span>Outdoors</span>
+					<span>Food</span>
+					<span>Sports</span>
+					<span>Museums</span>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-body">
+					<h1>Group schedule</h1>
+					<div ng-controller="CalendarController">
+						<div id="calendar" class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="panel">
-			<div class="panel-body">
-				<h1>Popular Preferences</h1>
-				<span>Outdoors</span>
-				<span>Food</span>
-				<span>Sports</span>
-				<span>Museums</span>
-			</div>
-		</div>
-		<div class="panel">
-			<div class="panel-body">
-				<h1>Group schedule</h1>
-				<p>Insert angular calendar here, yo</p>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+
+		<!-- Scripts -->
+		<!-- jquery, moment, and angular have to get included before fullcalendar -->
+		<script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "moment/min/moment.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "angular/angular.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "angular-ui-calendar/src/calendar.js" %}"></script>
+		<script type="text/javascript" src="{% static "fullcalendar/dist/fullcalendar.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "fullcalendar/dist/gcal.js" %}"></script>
+
+		<!-- TODO: shift to main.js -->
+		<!-- Angular UI Calendar https://github.com/angular-ui/ui-calendar -->
+		<script type="text/javascript">
+			angular.module('group', ['ui.calendar']).controller('CalendarController', function($scope) {
+
+				$scope.events = [];
+
+				{% for date in userAvailability %}
+				$scope.events.push({
+					title: "{{user.user_name}} is Available",
+					start: new Date({{date.start_date.year}}, {{date.start_date.month}}, {{date.start_date.day}}, {{date.start_date.time.hour}}, {{date.start_date.time.minute}}),
+					end: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
+					color: '#00A896'
+				});
+				{% endfor %}
+
+				$scope.eventSources = [$scope.events];
+
+				$scope.eventClick = function(event, jsEvent, view) {
+				};
+
+				$scope.eventMouseover = function(event, jsEvent, view) {
+				};
+
+				$scope.eventMouseout = function(event, jsEvent, view) {
+				};
+
+				$scope.calendarOptions =
+				{
+					calendar: {
+						editable: true,
+						header: {
+							left: 'title',
+							center: '',
+							right: 'month agendaWeek agendaDay today prev,next'
+						},
+						eventClick: $scope.eventClick,
+						eventMouseover: $scope.eventMouseover,
+						eventMouseout: $scope.eventMouseout,
+						defaultView: 'agendaWeek'
+					}
+				};
+
+			});
+
+		</script>
+
+
+
+	</body>
+	</html>

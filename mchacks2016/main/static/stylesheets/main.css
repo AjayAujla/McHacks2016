@@ -51,11 +51,8 @@ h2 {
   border-radius: 5px;
   padding: 5px;
 }
-span.vote {
-
-}
-.calendar {
-  width: 50%;
+.vote.glyphicon.glyphicon-arrow-up {
+  background-color: #9bc1bc;
 }
 .header.group h1 {
   font-weight: 600;
