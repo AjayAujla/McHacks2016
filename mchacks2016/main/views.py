@@ -54,11 +54,15 @@ def group(request, group_name):
 		# check if friendo exists
 		friend = User.objects.filter(user_name=request.POST['friend'])
 		if friend.exists():
+			message = request.POST['friend'] + " added!"
 			group.users.add(friend[0])
+		else:
+			message = "That friend does not exist! (At least in our database..)"
 	context = {
 		'group': group,
 		'group_name': group_name,
 		'users': users,
+		'message': message,
 	}
 
 	return render(request, 'main/group.html', context)

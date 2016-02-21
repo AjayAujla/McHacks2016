@@ -108,6 +108,7 @@
 			<div class="panel">
 				<div class="panel-body">
 					<h1>Add a friend</h1>
+					{% if message %} <p>{{ message }}</p>{% endif %}
 					<form id="addFriend" method="POST" action="/group/{{group_name}}" novalidate="novalidate" class="navbar-form">{% csrf_token %}
 						<input type="hidden" name="group" value="{{group_name}}">
 						<input type="hidden" name="formType" value="add_friend">
