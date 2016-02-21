@@ -5,10 +5,10 @@ from main.models import *
 # Create your views here.
 
 def dashboard(request):
-	availabilities = Availability.objects.filter(user__user_name='Bob')	# user__user_name=request.user
+	user = User.objects.get(user_name='Bob')	# user_name=request.user
 
 	context = {
-		'my_availabilities': availabilities
+		'user': user
 	}
 	
 	return render(request, 'main/dashboard.html', context)
