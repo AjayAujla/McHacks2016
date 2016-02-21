@@ -37,8 +37,8 @@
 					<h1><span>GROUP</span> {{ group_name }}</h1>
 				</div>
 				<div class="col-md-8 users">
-					{% for users in users %}
-					{{ user.username }}
+					{% for user in users %}
+					{{ user.user_name }}
 					<img src="http://placehold.it/50x50" class="img-circle" title="user">
 					{% endfor %}
 				</div>
@@ -53,14 +53,13 @@
 					<div class="col-md-6">
 						<h3>Activities</h3>
 						<ul>
-							<li>Biking</li>
-							<li>Pizza</li>
+							<li>{{group.activity}}</li>
 						</ul>
 					</div>
 					<div class="col-md-6">
 						<h3>Dates</h3>
 						<ul>
-							<li>Monday 3pm</li>
+							<li>{{ group.chosen_date }}</li>
 						</ul>
 					</div>
 				</div>
@@ -131,13 +130,15 @@
 
 				$scope.events = [];
 
-				{% for date in userAvailability %}
+				{% for user in users %}
+				{% for availability in user.availability.all %}
 				$scope.events.push({
 					title: "{{user.user_name}} is Available",
-					start: new Date({{date.start_date.year}}, {{date.start_date.month}}, {{date.start_date.day}}, {{date.start_date.time.hour}}, {{date.start_date.time.minute}}),
-					end: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
+					start: new Date({{availability.start_date.year}}, {{availability.start_date.month}}, {{availability.start_date.day}}, {{availability.start_date.time.hour}}, {{availability.start_date.time.minute}}),
+					end: new Date({{availability.end_date.year}}, {{availability.end_date.month}}, {{availability.end_date.day}}, {{availability.end_date.time.hour}}, {{availability.end_date.time.minute}}),
 					color: '#00A896'
 				});
+				{% endfor %}
 				{% endfor %}
 
 				$scope.eventSources = [$scope.events];

@@ -17,8 +17,14 @@ def dashboard(request):
 	return render(request, 'main/dashboard.html', context)
 
 def group(request, group_name):
+
+	group = Group.objects.get(name=group_name)
+	users = group.users.all
+
 	context = {
-		'group_name': group_name
+		'group':group,
+		'group_name': group_name,
+		'users': users,
 	}
 
 	return render(request, 'main/group.html', context)
