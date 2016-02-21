@@ -50,6 +50,7 @@ def group(request, group_name):
 	except Group.DoesNotExist:
 		raise Http404("Group doesn't exist!")
 	users = group.users.all
+	message = ''
 	if request.method == 'POST' and request.POST['formType'] == 'add_friend':
 		# check if friendo exists
 		friend = User.objects.filter(user_name=request.POST['friend'])
