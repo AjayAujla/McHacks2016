@@ -8,7 +8,8 @@ def dashboard(request):
 	user = User.objects.get(user_name='Bob')	# user_name=request.user
 
 	context = {
-		'user': user
+		'user': user,
+		'userAvailability': user.availability.all
 	}
 	
 	return render(request, 'main/dashboard.html', context)

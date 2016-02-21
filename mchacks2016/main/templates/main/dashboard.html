@@ -95,27 +95,16 @@
 	<script type="text/javascript">
 		angular.module('dashboard', ['ui.calendar']).controller('CalendarController', function($scope) {
 
-			//TODO: remove test data
-			$scope.events = [
-			{ 
-				title: "Birthday",
-				start: new Date(2016, 1, 21),
-				textColor: 'black'
-			},
-			{
-				title: "Anniversary",
-				start: new Date(2016, 1, 22, 19, 30),
-				end: new Date(2016, 1, 23, 19, 30),
+			$scope.events = [];
+
+			{% for date in userAvailability %}
+			$scope.events.push({
+				title: "{{user.user_name}} is Available",
+				start: new Date({{date.start_date.year}}, {{date.start_date.month}}, {{date.start_date.day}}, {{date.start_date.time.hour}}, {{date.start_date.time.minute}}),
+				start: new Date({{date.end_date.year}}, {{date.end_date.month}}, {{date.end_date.day}}, {{date.end_date.time.hour}}, {{date.end_date.time.minute}}),
 				color: '#00A896'
-			},
-			{
-				title: "Conference",
-				start: new Date(2016, 1, 23),
-				end: new Date(2016, 1, 24),
-				color: "yellow",
-				textColor: "black"
-			}
-			];
+			});
+			{% endfor %}
 
 			$scope.eventSources = [$scope.events];
 
