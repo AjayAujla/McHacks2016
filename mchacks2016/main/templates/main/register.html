@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="{% static "fullcalendar/dist/fullcalendar.css" %}"/>
+	<link rel="stylesheet" href="{% static "stylesheets/bootstrap.min.css" %}"/>
+	<link rel="stylesheet" href="{% static "stylesheets/main.css" %}"/>
+
+	<!-- TODO: shift to main.css -->
+	<style type="text/css">
+		.calendar {
+			width: 50%;
+		}
+	</style>
+</head>
+<body ng-app="register">
+    {% if form.errors %}
+        <p class="error">Sorry, that's not a valid username or password.</p>
+    {% endif %}
+    
+    <div id="login-overlay" class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title myModalLabel">Register to TeamUp</h4>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="well">
+                          <form id="loginForm" method="POST" action="/register/" novalidate="novalidate">{% csrf_token %}
+                              <div class="form-group">
+                                  <label for="first_name" class="control-label">First name :</label>
+                                  <input type="text" class="form-control" title="Please enter you first name" name="first_name" value="" id="first_name">
+                              </div>
+                              <div class="form-group">
+                                  <label for="last_name" class="control-label">Last name :</label>
+                                  <input type="text" class="form-control" title="Please enter you last name" name="last_name" value="" id="last_name">
+                              </div>
+                              <div class="form-group">
+                                  <label for="postal_code" class="control-label">Postal code :</label>
+                                  <input type="text" class="form-control" title="Please enter your postal code" name="postal_code" value="" id="postal_code">
+                              </div>
+                              <div class="form-group">
+                                  <label for="user_name" class="control-label">User name :</label>
+                                  <input type="text" class="form-control" title="Please enter you user name" name="user_name" value="" id="user_name">
+                              </div>
+                              <div class="form-group">
+                                  <label for="password" class="control-label">Password :</label>
+                                  <input type="text" class="form-control" title="Please enter you password" name="password" value="" id="password">
+                              </div>
+                              <button href="" type="submit" class="btn btn-success btn-block">Register</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
