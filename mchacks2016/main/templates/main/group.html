@@ -1,9 +1,118 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Group {{ group_name }}</title>
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="{% static "fullcalendar/dist/fullcalendar.css" %}"/>
+	<link rel="stylesheet" href="{% static "stylesheets/bootstrap.min.css" %}"/>
+	<link rel="stylesheet" href="{% static "stylesheets/main.css" %}"/>
 </head>
-<body>
-	<p>{% url 'group' group_name %}</p>
+<body ng-app="dashboard">
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Link</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container -->
+	</nav>
+	<div class="header group">
+		<div class="container">
+			<div class="row">
+					<div class="col-md-4">
+						<h1><span>GROUP</span> {{ group_name }}</h1>
+					</div>
+					<div class="col-md-8 users">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+						<img src="http://placehold.it/50x50" class="img-circle" title="user">
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="container content group">
+		<div class="panel">
+			<div class="panel-body">
+				<h1>Top Suggestions</h1>
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Activities</h3>
+						<ul>
+							<li>Biking</li>
+							<li>Pizza</li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<h3>Dates</h3>
+						<ul>
+							<li>Monday 3pm</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<h1>Suggestions</h1>
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Activities</h3>
+						<ul>
+							<li>Biking</li>
+							<li>Bowling</li>
+							<li>Pizza</li>
+						</ul>
+						<h3>Dates</h3>
+						<ul>
+							<li>Monday 3pm <a href="" class=""><span class="vote glyphicon glyphicon-arrow-up" aria-hidden="true"> </span></a></li>
+							<li>Wednesday 5pm <a href="" class=""><span class="vote glyphicon glyphicon-arrow-up" aria-hidden="true"> </span></a></li>
+							<li>Thursday 7pm <a href="" class=""><span class="vote glyphicon glyphicon-arrow-up" aria-hidden="true"> </span></a></li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<h3>Recommend an activity!</h3>
+						<form action="add_activity" method="post">
+						{% csrf_token %}
+						    <input type="text" name="name" /><br>
+								<input type="checkbox" name="pref1" value="pref1"> pref1<br>
+								<input type="checkbox" name="pref2" value="Mike"> pref2<br>
+								<input type="submit" value="Submit" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<h1>Popular Preferences</h1>
+				<span>Outdoors</span>
+				<span>Food</span>
+				<span>Sports</span>
+				<span>Museums</span>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<h1>Group schedule</h1>
+				<p>Insert angular calendar here, yo</p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
