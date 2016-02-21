@@ -2,20 +2,9 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
-class User(models.Model):
-    user_name = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    postal_code = models.CharField(max_length=7)
-    
-    def __str__(self):
-        return self.user_name
-    
 # Preferences are more general, eg : outdoors
 class Preference(models.Model):
     name = models.CharField(max_length=50)
-    user = models.ManyToManyField(User)
     
     def __str__(self):
         return self.name
@@ -23,7 +12,17 @@ class Preference(models.Model):
 class Availability(models.Model):
     start_date=models.DateTimeField('Available from')
     end_date = models.DateTimeField('Available to')
-    user = models.ManyToManyField(User)
+
+class User(models.Model):
+    user_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=7)
+    preference = models.ManyToManyField(Preference)
+    availability = models.ManyToManyField(Availability)
+    
+    def __str__(self):
+        return self.user_name
 
 # Activities are a specific event, eg : hiking Mont Royal
 class Activity(models.Model):
@@ -37,10 +36,10 @@ class Activity(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=50)
     users = models.ManyToManyField(User)
-    chosen_activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='chosen_activity')
-    chosen_date = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='chosen_date')
-    suggested_activities = models.ManyToManyField(Activity, related_name='suggested_activities')
-    suggested_dates = models.ManyToManyField(Availability, related_name='suggested_dates')
+    chosen_activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='chosen_activity', blank=True, null=True)
+    chosen_date = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='chosen_date', blank=True, null=True)
+    suggested_activities = models.ManyToManyField(Activity, related_name='suggested_activities', blank=True, null=True)
+    suggested_dates = models.ManyToManyField(Availability, related_name='suggested_dates', blank=True, null=True)
     
     def __str__(self):
         return self.name
