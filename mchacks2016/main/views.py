@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.shortcuts import redirect
 from main.models import *
@@ -45,12 +45,18 @@ def enter_dashboard(request, user):
 	return render(request, 'main/dashboard.html', context)
 
 def group(request, group_name):
-
-	group = Group.objects.get(name=group_name)
+	try:
+		group = Group.objects.get(name=group_name)
+	except Group.DoesNotExist:
+		raise Http404("Group doesn't exist!")
 	users = group.users.all
-
+	if request.method == 'POST' and request.POST['formType'] == 'add_friend':
+		# check if friendo exists
+		friend = User.objects.filter(user_name=request.POST['friend'])
+		if friend.exists():
+			group.users.add(friend[0])
 	context = {
-		'group':group,
+		'group': group,
 		'group_name': group_name,
 		'users': users,
 	}
@@ -70,7 +76,7 @@ def register(request):
         newUser.postal_code = request.POST['postal_code']
         newUser.password = request.POST['password']
         newUser.save()
-        return enter_dashboard(request, user)
+        return enter_dashboard(request, newUser)
 #    else:
         #TODO: raise 404 or something
 def index(request):
