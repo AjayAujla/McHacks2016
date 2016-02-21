@@ -7,20 +7,31 @@
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static "fullcalendar/dist/fullcalendar.css" %}"/>
 
-	<!-- TODO: shift to main.css -->
-	<style type="text/css">
-		.calendar {
-			width: 50%;
-		}
-	</style>
 </head>
 
 <body ng-app="dashboard">
+
+	{% for availability in my_availabilities %}
+	start date
+	{{ availability.start_date.date.year }}
+	{{ availability.start_date.date.month }}
+	{{ availability.start_date.date.day }}
+	start time
+	{{ availability.start_date.time.hour }}
+	{{ availability.start_date.time.minute }}
+	end date
+	{{ availability.end_date.date.year }}
+	{{ availability.end_date.date.month }}
+	{{ availability.end_date.date.day }}
+	end time
+	{{ availability.end_date.time.hour }}
+	{{ availability.end_date.time.minute }}
+	{% endfor %}	
 	
 	<p>At the dashboard view</p>
 
 	<div ng-controller="CalendarController">
-		<div class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
+		<div id="calendar" class="calendar" ui-calendar="calendarOptions.calendar" ng-model="eventSources"></div>
 	</div>
 
 
@@ -39,7 +50,7 @@
 		angular.module('dashboard', ['ui.calendar']).controller('CalendarController', function($scope) {
 
 			//TODO: remove test data
-			var events = [
+			$scope.events = [
 			{ 
 				title: "Birthday",
 				start: new Date(2016, 1, 21),
@@ -60,7 +71,16 @@
 			}
 			];
 
-			$scope.eventSources = [events];
+			$scope.eventSources = [$scope.events];
+
+			$scope.eventClick = function(event, jsEvent, view) {
+			};
+
+			$scope.eventMouseover = function(event, jsEvent, view) {
+			};
+
+			$scope.eventMouseout = function(event, jsEvent, view) {
+			};
 
 			$scope.calendarOptions = 
 			{
@@ -72,11 +92,12 @@
 						center: '',
 						right: 'month agendaWeek agendaDay today prev,next'
 					},
-					dayClick: $scope.alertEventOnClick,
-					eventDrop: $scope.alertOnDrop,
-					eventResize: $scope.alertOnResize
+					eventClick: $scope.eventClick,
+					eventMouseover: $scope.eventMouseover,
+					eventMouseout: $scope.eventMouseout,
 				}
 			};
+
 		});
 
 	</script>

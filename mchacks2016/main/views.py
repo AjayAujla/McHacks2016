@@ -1,13 +1,16 @@
 from django.http import HttpResponse
-
 from django.shortcuts import render
+from main.models import *
 
 # Create your views here.
 
 def dashboard(request):
-	context = {
+	availabilities = Availability.objects.filter(user__user_name='Bob')	# user__user_name=request.user
 
+	context = {
+		'my_availabilities': availabilities
 	}
+	
 	return render(request, 'main/dashboard.html', context)
 
 def group(request, group_name):
