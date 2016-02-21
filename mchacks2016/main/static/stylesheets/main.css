@@ -2,10 +2,14 @@ body {
   padding: 0;
   margin: 0;
   background: #e6ebe0;
+  color: #333;
 }
 h1, h2, h3, h4, h5 {
   padding: 0;
   margin: 0;
+}
+h2 {
+  color:#5ca4a9;
 }
 .header {
   background: #028090;
@@ -15,6 +19,10 @@ h1, h2, h3, h4, h5 {
 }
 .header h1 {
   padding-top: 30px;
+  color: #e6ebe0;
+}
+.header img {
+  border: 5px solid #ed6a5a;
 }
 .navbar {
   margin-bottom: 0;
@@ -35,11 +43,38 @@ h1, h2, h3, h4, h5 {
 .preferences {
     line-height: 35px;
 }
-.preferences span {
-    background: #ed6a5a;
-    color: #fff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 5px;
+.preferences span, .container.group span  {
+  background: #ed6a5a;
+  color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 5px;
+}
+span.vote {
+
+}
+.calendar {
+  width: 50%;
+}
+.header.group h1 {
+  font-weight: 600;
+}
+.group h1 {
+  text-align: left;
+}
+.group h3 {
+  color: #5ca4a9;
+}
+.header.group span {
+  color: #9bc1bc;
+  font-weight: 100;
+}
+.group .users {
+  text-align: right;
+  letter-spacing: 20px;
+  line-height: 80px;
+}
+.group li {
+  font-size: 20px;
 }
