@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>Login</title>
-    
+
     <!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static "fullcalendar/dist/fullcalendar.css" %}"/>
 	<link rel="stylesheet" href="{% static "stylesheets/bootstrap.min.css" %}"/>
@@ -15,7 +15,7 @@
 			width: 50%;
 		}
 	</style>
-    
+
 </head>
 <body>
     <div id="login-overlay" class="modal-dialog">
@@ -27,7 +27,8 @@
               <div class="row">
                   <div class="col-xs-6">
                       <div class="well">
-                          <form id="loginForm" method="POST" action="/dashboard/" novalidate="novalidate">
+												<p>{{ message }}</p>
+                          <form id="loginForm" method="POST" action="/" novalidate="novalidate">{% csrf_token %}
                               <div class="form-group">
                                   <label for="username" class="control-label">Username</label>
                                   <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username">
@@ -57,12 +58,12 @@
                           <li>Trust our choice</li>
                           <li>Let the teambonding begin!</li>
                       </ul>
-                      <p><a href="/new-user/" class="btn btn-info btn-block">Sounds good, register now!</a></p>
+                      <p><a href="/register" class="btn btn-info btn-block">Sounds good, register now!</a></p>
                   </div>
               </div>
           </div>
       </div>
   </div>
-	
+
 </body>
 </html>

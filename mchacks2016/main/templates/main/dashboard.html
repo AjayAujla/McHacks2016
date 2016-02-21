@@ -42,17 +42,19 @@
 				<div class="panel">
 					<div class="panel-body">
 						<h1>Groups</h1>
+						<form id="createGroup" method="POST" action="/dashboard" novalidate="novalidate" class="navbar-form">{% csrf_token %}
+							<input type="hidden" name="username" value="{{user.user_name}}">
+							<input type="hidden" name="formType" value="create_group">
+							<div class="form-group">
+									<input type="text" class="form-control" id="group" name="group" value="" required="" placeholder="Create new group">
+							</div>
+							<button href="" type="submit" class="btn btn-success">Create</button>
+						</form>
 						<ul>
 							{% for group in userGroups %}
-								<li><a href="/group/{{group}}/">{{group}}</a></li>
+								<li><a href="/group/{{group}}">{{group}}</a></li>
 							{% endfor %}
 						</ul>
-						<form class="navbar-form navbar-left" role="search">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Create new group">
-							</div>
-							<button type="submit" class="btn btn-default">Submit</button>
-						</form>
 					</div>
 				</div>
 			</div>
@@ -60,6 +62,15 @@
 				<div class="panel preferences">
 					<div class="panel-body">
 						<h1>Preferences</h1>
+						<form id="createPref" method="POST" action="/dashboard" novalidate="novalidate" class="navbar-form">{% csrf_token %}
+							<input type="hidden" name="username" value="{{user.user_name}}">
+							<input type="hidden" name="formType" value="create_pref">
+							<div class="form-group">
+									<input type="text" class="form-control" id="pref" name="pref" value="" required="" placeholder="Add a preference">
+							</div>
+							<button href="" type="submit" class="btn btn-success">Add</button>
+						</form>
+
 						{% for preference in userPreferences %}
 							<span>{{preference}}</span>
 						{% endfor %}
