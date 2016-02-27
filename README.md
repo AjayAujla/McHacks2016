@@ -19,7 +19,7 @@ Navigate into project directory
 
 `cd McHacks2016/mchacks2016`
 
-Deply to server
+Deploy to server
 
 `python manage.py runserver`
 
